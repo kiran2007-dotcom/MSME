@@ -1,0 +1,196 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user account profile and active workspace selection.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "minLength": 3, "maxLength": 320 },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "activeBusinessId": { "type": "string", "maxLength": 128 },
+        "themePreference": { "type": "string", "enum": ["light", "dark", "system"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "displayName", "themePreference", "createdAt", "updatedAt"]
+    },
+    "UserMembership": {
+      "title": "UserMembership",
+      "description": "Index of businesses a user is authorized to access.",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "businessName": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "role": { "type": "string", "enum": ["owner", "admin", "accountant", "viewer"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["businessId", "businessName", "role", "createdAt", "updatedAt"]
+    },
+    "Business": {
+      "title": "Business",
+      "description": "Indian MSME business profile and statutory registration details.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "ownerUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "ownerName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "businessName": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "businessType": { "type": "string", "enum": ["Proprietorship", "Partnership", "LLP", "Private Limited", "One Person Company", "Other"] },
+        "industryCategory": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "city": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "state": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "pincode": { "type": "string", "minLength": 6, "maxLength": 10, "pattern": "^[0-9]{6}$" },
+        "businessSize": { "type": "string", "enum": ["Micro", "Small", "Medium"] },
+        "registrationStatus": { "type": "string", "enum": ["Registered", "In Progress", "Unregistered"] },
+        "gstin": { "type": "string", "maxLength": 15 },
+        "udyamNumber": { "type": "string", "maxLength": 25 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "id",
+        "ownerUid",
+        "ownerName",
+        "businessName",
+        "businessType",
+        "industryCategory",
+        "city",
+        "state",
+        "pincode",
+        "businessSize",
+        "registrationStatus",
+        "gstin",
+        "udyamNumber",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BusinessMember": {
+      "title": "BusinessMember",
+      "description": "Authorized member role assignment for a business workspace.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "role": { "type": "string", "enum": ["owner", "admin", "accountant", "viewer"] },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "role", "displayName", "createdAt", "updatedAt"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Income or expense ledger entry belonging to a business.",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "category": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "counterparty": { "type": "string", "maxLength": 160 },
+        "amount": { "type": "number" },
+        "gstAmount": { "type": "number" },
+        "date": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "status": { "type": "string", "enum": ["completed", "pending"] },
+        "paymentMethod": { "type": "string", "enum": ["UPI", "NEFT/RTGS", "Card", "Cash", "Cheque", "Other"] },
+        "createdByUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["businessId", "type", "category", "description", "counterparty", "amount", "gstAmount", "date", "status", "paymentMethod", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "Invoice": {
+      "title": "Invoice",
+      "description": "Sales invoice record belonging to a business.",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "invoiceNumber": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "customerName": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "customerGstin": { "type": "string", "maxLength": 15 },
+        "issueDate": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "dueDate": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "subtotal": { "type": "number" },
+        "gstAmount": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["draft", "sent", "paid", "overdue"] },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdByUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["businessId", "invoiceNumber", "customerName", "customerGstin", "issueDate", "dueDate", "subtotal", "gstAmount", "totalAmount", "status", "notes", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "ComplianceReminder": {
+      "title": "ComplianceReminder",
+      "description": "Statutory or payment reminder for an MSME business.",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 180 },
+        "category": { "type": "string", "enum": ["GST", "Income Tax", "ROC", "MSME", "Payment", "Other"] },
+        "dueDate": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "status": { "type": "string", "enum": ["upcoming", "completed"] },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdByUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["businessId", "title", "category", "dueDate", "status", "notes", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "BusinessDocument": {
+      "title": "BusinessDocument",
+      "description": "Metadata for uploaded business documents stored in Firebase Storage.",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "category": { "type": "string", "enum": ["GST", "Udyam", "Invoice", "Bank Statement", "License", "Tax", "Other"] },
+        "storagePath": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "downloadUrl": { "type": "string", "minLength": 1, "maxLength": 1500 },
+        "mimeType": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "sizeBytes": { "type": "number" },
+        "uploadedByUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["businessId", "name", "category", "storagePath", "downloadUrl", "mimeType", "sizeBytes", "uploadedByUid", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Authenticated user account record isolated per user UID."
+    },
+    "/users/{userId}/memberships/{businessId}": {
+      "schema": { "$ref": "#/entities/UserMembership" },
+      "description": "Authorized business memberships for fast user workspace lookup."
+    },
+    "/businesses/{businessId}": {
+      "schema": { "$ref": "#/entities/Business" },
+      "description": "Core MSME business profile owned by an authenticated user."
+    },
+    "/businesses/{businessId}/members/{memberUid}": {
+      "schema": { "$ref": "#/entities/BusinessMember" },
+      "description": "Role-based access control records for authorized business team members."
+    },
+    "/businesses/{businessId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Real revenue and expense ledger entries scoped to a business."
+    },
+    "/businesses/{businessId}/invoices/{invoiceId}": {
+      "schema": { "$ref": "#/entities/Invoice" },
+      "description": "Invoices issued by a business."
+    },
+    "/businesses/{businessId}/reminders/{reminderId}": {
+      "schema": { "$ref": "#/entities/ComplianceReminder" },
+      "description": "Compliance and payment reminders scoped to a business."
+    },
+    "/businesses/{businessId}/documents/{documentId}": {
+      "schema": { "$ref": "#/entities/BusinessDocument" },
+      "description": "Document vault metadata referencing Firebase Cloud Storage files."
+    }
+  }
+}

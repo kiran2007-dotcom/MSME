@@ -1,0 +1,70 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-royal: #3768D9;
+  --color-brand-deep: #254EAA;
+  --color-brand-emerald: #22A58B;
+  --color-brand-coral: #EE806B;
+  --color-brand-sunshine: #F4B544;
+  --color-brand-lavender: #8A76D6;
+  --color-brand-sky: #55A9D8;
+  --color-ink: #25334B;
+  --color-ink-muted: #718096;
+  --color-canvas: #FFFFFF;
+  --color-canvas-alt: #F6F8FC;
+  --color-canvas-soft: #EDF4FF;
+}
+
+@layer base {
+  :root {
+    --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    color: #25334B;
+    background-color: #FFFFFF;
+  }
+
+  html.dark {
+    color: #F1F5F9;
+    background-color: #0F172A;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono, .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.shadow-fintech {
+  box-shadow: 0 1px 2px rgba(37, 51, 75, 0.04), 0 8px 24px -8px rgba(37, 51, 75, 0.08);
+}
+
+.dark .shadow-fintech {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 10px 28px -8px rgba(0, 0, 0, 0.45);
+}
+
+.shadow-fintech-lg {
+  box-shadow: 0 4px 12px rgba(37, 51, 75, 0.05), 0 24px 48px -12px rgba(55, 104, 217, 0.14);
+}
+
+.dark .shadow-fintech-lg {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 24px 48px -12px rgba(15, 23, 42, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
